@@ -8,8 +8,13 @@ management.
 * Spring Boot is a Parent Project, our project is child Project
 
 ## What is auto-configuration?
+
+Spring Boot auto-configuration automatically configures the Spring application based on the jar dependencies that we have added.               		
+
+For example, if the `Oracle/Mysql/H2 database` Jar is present in the classpath and we have not configured any beans related to the database manually, the Spring Boot's auto-configuration feature automatically configures it in the project.
+
 Let's take and Example with Core Java, Spring , Spring Boot.
-## JDBC Code in Core java
+### JDBC with Core java
 
 We are using `Oracle Database` in this example
 
@@ -58,4 +63,303 @@ class OracleCon{
 } 
 ```  
 
-## JDBC Code in Spring 
+### JDBC with Spring
+#### Step 1: (Create Spring JDBC project using Maven)
+
+#### Step 2 : (Add Spring JDBC and Oracle dependencies)
+
+ 
+```
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-jdbc</artifactId>
+      <version>4.0.5.RELEASE</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-context</artifactId>
+      <version>4.0.5.RELEASE</version>
+    </dependency>
+```
+> Since we are using Oracle Driver, we will add corresponding driver dependency as well:
+```
+<dependency>
+    <groupId>com.oracle.database.jdbc</groupId>
+    <artifactId>ojdbc10</artifactId>
+    <version>19.16.0.0</version>
+</dependency>
+```
+#### Step 3: (Create Employee table in Oracle Database) 
+```sql
+CREATE TABLE `employee` (
+  `id` Number(11) ,
+  `age` Number(11),
+  `name` varchar(255),
+  address varchar(255),
+  PRIMARY KEY (`id`)
+) 
+```
+> Lets insert some record into the employee table 
+
+```sql
+insert into employee values(101,22,'Hritik','Gadchiroli');
+insert into employee values(102,22,'Laxmi','Balaghat');
+insert into employee values(103,22,'Atharva','Nagpur');
+```
+#### Step 4: (Create Data Transfer Object)
+> Create an entity(Model) class
+```java
+package com.codeheist.model;
+
+public class Employee {
+
+  private int id;
+  private String name;
+  private int age;
+  private String address;
+  
+  public int getId() {
+    return id;
+  }
+  public void setId(int id) {
+    this.id = id;
+  }
+  public String getName() {
+    return name;
+  }
+  public void setName(String name) {
+    this.name = name;
+  }
+  public int getAge() {
+    return age;
+  }
+  public void setAge(int age) {
+    this.age = age;
+  }
+    public int getAddress() {
+    return address;
+  }
+  public void setAge(int address) {
+    this.address = address;
+  }
+  
+}
+```
+
+#### Step 5: (Create configuration class)
+> We will create a configuration class for obtaining the DataSource details and JDBCTemplate.
+```java
+package com.codeheist.bean;
+
+import javax.sql.DataSource;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
+
+@Configuration
+public class SpringJDBCConfiguration {
+  @Bean
+  public DataSource dataSource() {
+    DriverManagerDataSource dataSource = new DriverManagerDataSource();
+    //MySQL database we are using
+    dataSource.setDriverClassName("oracle.jdbc.OracleDriver");
+    dataSource.setUrl("jdbc:oracle:thin:@localhost:1521:xe");//change url if required
+    dataSource.setUsername("System");//change username if required
+    dataSource.setPassword("password");//change pwd
+   
+    return dataSource;
+  }
+
+  @Bean
+  public JdbcTemplate jdbcTemplate() {
+    JdbcTemplate jdbcTemplate = new JdbcTemplate();
+    jdbcTemplate.setDataSource(dataSource());
+    return jdbcTemplate;
+  }
+
+  @Bean
+  public EmployeeDAO employeeDAO(){
+    EmployeeDAOImpl empDao = new EmployeeDAOImpl();
+    empDao.setJdbcTemplate(jdbcTemplate());
+    return empDao;
+  }
+
+}
+```
+
+#### Step 6: (Create DAO classes)
+
+> Let’s create the EmployeeDAO interface and implementation class for the db operations. 
+> We are using JdbcTemplate for the db operations here.
+```java
+package com.codeheist.dao;
+
+public interface EmployeeDAO {
+  public String getEmployeeName(int id);
+}
+```
+```java
+package com.codeheist.dao;
+
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public class EmployeeDAOImpl implements EmployeeDAO {
+
+  private JdbcTemplate jdbcTemplate;
+  
+  public void setJdbcTemplate(JdbcTemplate jdbcTemplate){
+    this.jdbcTemplate = jdbcTemplate;
+  }
+
+  public String getEmployeeName(int id) {
+    String sql = "select name from employee where id = ?";
+    String name = jdbcTemplate.queryForObject(sql,new Object[]{id},String.class);
+    return name;
+  }
+
+}
+```
+
+> In the DAO class, we have provided implementation for reading name for an employee using the ID.
+
+#### Step 7: (Main App class)
+
+```
+package com.codeheist.main;
+
+import java.sql.SQLException;
+
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+public class App {
+  public static void main(String[] args) throws SQLException {
+    AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext(
+        SpringJDBCConfiguration.class);
+
+    EmployeeDAO empDAO = applicationContext.getBean(EmployeeDAO.class);
+
+    String empName = empDAO.getEmployeeName(1);
+
+    System.out.println("Employee name is " + empName);
+
+    applicationContext.close();
+  }
+}
+```
+
+### JDBC with Spring Boot
+
+#### Step 1: Create Spring Boot Project
+
+```
+  <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jdbc</artifactId>
+        </dependency>
+      	<dependency>
+    	    <groupId>com.oracle.database.jdbc</groupId>
+    	    <artifactId>ojdbc10</artifactId>
+	</dependency>
+  </dependencies>
+```
+
+#### Step 2: (Create Employee table in Oracle Database) 
+```sql
+CREATE TABLE `employee` (
+  `id` Number(11) ,
+  `age` Number(11),
+  `name` varchar(255),
+  address varchar(255),
+  PRIMARY KEY (`id`)
+) 
+```
+
+#### Step 3. Configure Database Connection Properties
+> Create the application.properties file under the src/main/resources 
+```
+spring.datasource.driver=oracle.jdbc.OracleDriver
+spring.datasource.url=jdbc:oracle:thin:@localhost:1521:xe
+spring.datasource.username=system
+spring.datasource.password=password
+```
+> Here, we specify database connection information
+
+#### Step 4. Code Java Model class
+```java
+package com.codeheist.model;
+
+public class Employee {
+
+  private int id;
+  private String name;
+  private int age;
+  private String address;
+  
+  public int getId() {
+    return id;
+  }
+  public void setId(int id) {
+    this.id = id;
+  }
+  public String getName() {
+    return name;
+  }
+  public void setName(String name) {
+    this.name = name;
+  }
+  public int getAge() {
+    return age;
+  }
+  public void setAge(int age) {
+    this.age = age;
+  }
+    public int getAddress() {
+    return address;
+  }
+  public void setAge(int address) {
+    this.address = address;
+  }
+  
+}
+```
+> Note that this model class has field names exactly match the column names in the corresponding table.
+
+#### Step 5. Code Spring Boot JDBC Application
+
+```java
+package com.codeheist.main
+ 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.jdbc.core.JdbcTemplate;
+ 
+@SpringBootApplication
+public class SpringBootJdbcExample implements CommandLineRunner {
+ 
+    @Autowired
+    JdbcTemplate jdbcTemplate;
+     
+    public static void main(String[] args) {
+        SpringApplication.run(SpringBootJdbcExample.class, args);
+    }
+ 
+    @Override
+    public void run(String... args) throws Exception {
+         
+        String sql = "INSERT INTO books (id, name,age, address) VALUES (?, ?, ?)";
+        int result = jdbcTemplate.update(101, "Hritik", 22, "nagpur");
+         
+        if (result > 0) {
+            System.out.println("Insert successfully.");
+        }      
+    }
+}
+
+```
