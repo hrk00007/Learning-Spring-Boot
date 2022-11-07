@@ -390,3 +390,150 @@ This database works on Ram. We can use it for development only not for productio
 </details>
 
 ---
+## Spring Boot Starter Files[Day 2]
+
+
+- We learned in the introducton that Spring Boot provide RAD(Rapid Application Development).
+- Spring Boor uses `Starter Project` to provide RAD
+
+### Starter Project contains 3 files in project Structure    
+`1. Starter Class aka BootStrap class aka main() class`    
+  - In this part there will be a normal java class with the project name as class Name.    
+  - This class is responsible for creating Spring Container and Start the application.    
+  - It is located inside `src/main/package_name/project_name.java`    
+	    
+`2. appliation.properties`    
+  - We use this file to provide inputs to our application.   
+  - It provides inputs in `key-value` format    
+  - It is located inside `src/main/resources/application.properties`    
+	    
+`3.  Build Information File`     
+  - It allows you to package executable jar or war archives, run Spring Boot applications, generate build information and start your Spring Boot application               prior to running integration tests.     
+  - We can any one of the below build files     
+    1. Gradle (build.gradle)    
+    2. Maven (pom.xml)    
+	      
+<details>
+<summary>Folder Structure</summary>
+<img src="https://user-images.githubusercontent.com/67812755/200368560-ac8a4eeb-655e-4cc8-b3ad-723a73eb91ed.png" width="500px"/>
+</br>
+<img src="https://user-images.githubusercontent.com/67812755/200368622-0041fc1f-16a9-4caa-b6ac-b6c6982b2e73.png" width="500px"/>
+</details>
+
+### Starter class || Bootstrap class || main() class
+
+Spring Container:- [pre-defined application in Spring]
+ 1. Create object to detected classes [non abstract class, not a interface]
+ 2. Provide data to objects
+ 3. Link one object with another object (HAS-A Relation)
+ 4. Destroy the object (while stopping application/server) 
+ 
+ <details>
+ <summary>Two types of Spring Container</summary>
+ a. BeanFactory (I) [Legacy-old container] works with XML.     
+ 
+ b. ApplicationContext (I) [New container] works with XML /Java/Annotation Configuration
+ </details>
+    
+---
+#### Starter class code
+```java
+    @SpringBootApplication
+     public class DemoApp{
+	public static void main(String [] args){
+	      SpringApplication.run(DemoApp.class,args);
+     }
+    }
+```
+
+---
+
+### b. application.properties || application.yml
+
+These are used to provide data to Spring container objects in key value format.(key=value).
+
+There are two types of keys
+ - Programmer Defined: This keys mean we have to provide our own key and values in application.properties 
+ 
+   ```
+   my.app.eid=101
+   my.app.ename=Hritik
+   my.app.esal=9000.0
+   my.app.eaddr=Nagpur
+   ```
+ - Pre-Defined keys:  those keys who are  provided by Spring Boot Team. We just need to provide value to those keys.
+ 
+    ```
+    spring.datasource.driver-class-name= com.mysql.jdbc.driver.Driver
+    spring.datasource.url= jdbc:mysql://localhost:3306/test
+    spring.datasource.username= root
+    spring.datasource.password= root
+    ```
+[Common Pre-Defined keys](https://docs.spring.io/spring-boot/docs/current/reference/html/application-properties.html)
+
+Alternative for application.properties is application.yml
+- YAML is format used to store data in key-val (without duplicate words).
+- Uses symbol (colon). In Spring Boot Snake YAML API is used that converts yml file to proprties file (Java understand only Properties).
+
+Syntax Difference between application.properties and application.yml
+
+`application.properties`
+```
+spring.datasource.driver-class-name= com.mysql.jdbc.driver.Driver
+spring.datasource.url= jdbc:mysql://localhost:3306/test
+spring.datasource.username= root
+spring.datasource.password= root
+```
+
+`application.yml`
+
+```yml
+spring:
+ datasource:
+   driver-class-name: com.mysql.jdbc.driver.Driver
+	 url: jdbc:mysql://localhost:3306/test
+	 username: root
+	 password: root
+```
+---
+
+### c. Build Information File
+
+Build Information File contains all the information of project. Which jars we required , plugins , jdk version , server details etc.
+
+- We have 2 option of build information file.
+  1. Maven (`pom.xml`)
+  2. Gradle( `build.gradle`)
+  
+<details>
+<summary>Why we need Build files</summary>
+
+- jars of hibernate,Servlets,Spring,Spring Boot
+
+- folder system
+
+- plugins (Jar,War,compiler ..etc)
+
+- phases and Goals
+
+- code → compiled →tested → packed(.jar/.war) → deployed
+
+</details>
+
+<details>
+<summary>Inside pom.xml</summary>
+
+1. Parent Project details
+
+2. Child Project Details
+
+3. Properties (jdk version, cloud version.. etc)
+
+4. Dependencies (JARS required for Project)
+
+5. Dependency management (JARS with version management)
+
+6. Build plugins etc.
+
+</details>
+
