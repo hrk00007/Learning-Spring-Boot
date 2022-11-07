@@ -1,4 +1,6 @@
 
+##Introduction to Spring Boot [Day 1]
+
 ## What is Spring boot?
 * Spring boot is a spring based framework which is open source and developed by Pivotal Team.       
 * It provides an easier and faster way to set up, configure, and run both simple and web-based applications.      
@@ -363,3 +365,28 @@ public class SpringBootJdbcExample implements CommandLineRunner {
 }
 
 ```
+
+> ### Summary
+As you scroll down from Jdbc In Core java to Spring JDBC to SpringBoot code get's less and easier.
+
+### FAQ
+<details>
+	<summary>Q) What is starter (or) Autoconfiguration in Spring Boot? With Example?</summary>
+	A) Spring Boot has provided common setup and code files that reduces programmer work, it is called as starter (or) Autoconfiguration.
+
+- Spring Boot also provide supports for **IN memory database || Embedded Database**
+This database works on Ram. We can use it for development only not for production. We have all types of option in these types of Databas**e**
+    
+    **Example For SQL:** H2 Database,  HSQL ,Hyper SQL ,Apache Derby
+    
+    **Example For NO-SQL:** Redis
+    
+- Spring Boot also provide supports for Embedded Servers: Tomcat (Apache), Jetty(Eclipse),Undertow(JBoss)
+</details>
+	
+<details>
+	<summary>Spring Boot in an Image</summary>
+	<img src="https://user-images.githubusercontent.com/67812755/200310916-eaf7cc24-4641-4c04-a802-2b8165b279f3.png" alt="Spring Boot in an Image"/>
+</details>
+
+---
