@@ -1,5 +1,5 @@
 
-##Introduction to Spring Boot [Day 1]
+## Introduction to Spring Boot [Day 1]
 
 ## What is Spring boot?
 * Spring boot is a spring based framework which is open source and developed by Pivotal Team.       
