@@ -537,3 +537,43 @@ Build Information File contains all the information of project. Which jars we re
 
 </details>
 
+---
+# Spring Configurations: 
+
+Spring Boot provides two types of Configurations
+
+<details>
+
+<summary>Annotation Configuration</summary>
+We use Annotation Configuration for `Programmer Defined` only
+
+It `doesn’t` support  for  `Pre-Defined classes`
+<details>
+<summary>Types of Annotations</summary>
+
+
+<details>
+<summary>1. Stereotype Annotation</summary>
+</details>
+
+
+
+<details>
+<summary>2. Data/Value Annotation</summary>
+</details>
+
+
+<details>
+<summary>3. Link/Wire Annotations</summary>
+</details>
+
+
+</details>
+
+
+
+<details>
+
+<summary>Java Based Configuration</summary>
+
+</details>
