@@ -3,12 +3,13 @@ This is my repo for learning Spring Boot
 
 # Introduction to Spring Boot [Day 1]
 
-- What is Spring Boot?
-    
-    Spring Boot is a spring based Parent Project Defined by Pivotal Team that reduces common setup and code[common things] is called as AutoConfiguration.
+<details>
+<summary>What is Spring Boot?</summary>
+<p>Spring Boot is a spring based Parent Project Defined by Pivotal Team that reduces common setup and code[common things] is called as AutoConfiguration.
     
     - Spring Boot is a Parent Project, our project is child Project
     - AutoConfiguration reduces programmer work, Programmer project is called as Child Project
+</details>
 - What is the auto-configuration?
     
     Suppose you want to Connect JDBC to Java program. You have to configure it in you java program
