@@ -1,0 +1,5 @@
+my:
+ app:
+  pid: 111
+  pname: DisplayFusion
+  pversion: 2.72
