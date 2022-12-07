@@ -1,0 +1,5 @@
+my:
+ app:
+  pid: 111
+  pname: Washing Machine 
+  pcost: 35000.450
