@@ -1,0 +1,15 @@
+my:
+ app:
+  colors:
+   - RED
+   - BLUE
+   - GREEN
+  version:
+    name1: Hritik
+    name2: Laxmi
+    name3: Atharva
+  vob:
+   vid: 111
+   vname: Naddeem 
+        
+    
