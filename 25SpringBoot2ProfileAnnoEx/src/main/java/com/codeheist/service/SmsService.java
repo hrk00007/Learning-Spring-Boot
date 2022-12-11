@@ -6,17 +6,16 @@ import org.springframework.stereotype.Component;
 
 import lombok.Data;
 
-@Profile("email")
-@ConfigurationProperties
-@Data
-@Component
-public class EmailServce implements AlertSystem {
 
+@Component
+@Data
+@ConfigurationProperties
+public class SmsService implements AlertSystem {
 	private String service;
 	private String format;
 	@Override
 	public void sendMessage() {
-		System.out.println("Messgae From Email Service System: "+service+" "+format);
+		System.out.println("Messgae From SMS Service System: "+service+" "+format);
 
 	}
 
