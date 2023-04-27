@@ -1,0 +1,22 @@
+my:
+ app:
+  name: Pdf-Service-Default
+  format: PDF
+
+---
+spring:
+  profiles: qa
+
+my:
+  app:
+    name: Csv-Service-QA
+    format: CSV
+
+---
+spring:
+  profiles: prod
+
+my:
+  app:
+    name: Excel-Service-PROD
+    format: EXCEL
